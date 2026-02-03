@@ -195,6 +195,24 @@
         document.getElementById('disagree').addEventListener('click', function() {
             window.location.href = 'https://www.google.com';
         });
+        // RSS Feed Loader
+fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.livelaw.in/rss')
+    .then(response => response.json())
+    .then(data => {
+        const rssContainer = document.getElementById('rss-content');
+        rssContainer.innerHTML = '';
+
+        data.items.slice(0, 5).forEach(item => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
+            rssContainer.appendChild(li);
+        });
+    })
+    .catch(error => {
+        document.getElementById('rss-content').innerHTML =
+            '<li>Unable to load updates at the moment.</li>';
+        console.error(error);
+    });
     </script>
 </body>
 </html>
